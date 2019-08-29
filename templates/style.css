@@ -1,0 +1,65 @@
+.jumbotron{
+    background-image: src="{{mars.featured_img}}";
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.header{
+    padding: 10px; /*Space above and below text*/
+    color: #fff; /*Color of the text*/
+    background:rgb(99, 0, 0);
+    font-variant-caps: small-caps;
+    border-style:solid;
+    border-color:white;
+    font-size: 50px
+}
+
+h1{
+    padding: 5px; /*Space above and below text*/
+    color: #fff; /*Color of the text*/
+    background:rgb(201, 52, 6);
+    font-variant-caps: small-caps;
+    font-size: 35px;
+    border-style:solid;
+    border-color:white;
+}
+
+h2{
+    padding: 5px; /*Space above and below text*/
+    color: rgb(170, 38, 20); /*Color of the text*/
+    background: white;
+    font-variant-caps: small-caps;
+    font-size: 25px;
+    border-style:solid;
+    border-color:white;
+}
+
+p{
+    font-family: "arial";
+    font-size: 15px;
+    text-align: justify
+}
+
+ul{
+    list-style-position: inside;
+}
+
+img{
+    overflow: auto;
+    float:left;
+    size:auto
+}
+
+
+th{
+    font-variant-caps: small-caps;
+    font-size: 15px;
+    text-align: center;  
+}
+
+td{
+    font-size:15px;
+}
+tbody.tr.th{
+    font-size:10px;
+}
