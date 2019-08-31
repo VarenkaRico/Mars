@@ -23,7 +23,7 @@ def scrape_info():
 
     news_title=soup_news.find("li", class_="slide").\
         find("div", class_="content_title").text
-    news_p=soup_news.find("li", class_="slide").\
+    news_paragraph=soup_news.find("li", class_="slide").\
         find("div", class_="article_teaser_body").text
 
 #FEATURED IMAGE
@@ -75,32 +75,53 @@ def scrape_info():
     browser.visit(url_hemispheres)
     html_hemispheres=browser.html
     soup_hemispheres=bs(html_hemispheres,"html.parser")
+    
+    ## Obtaining each individual Hemisphere URL
 
-    hemispheres_img=[]
-    hemispheres_names=[]
-    hemisphere_img_urls=[]
+    hemispheres_urls=[] #Will include all of the individual Hemispheres URLs
+
+    ### Loop to obtain the individual URLs for each Hemisphere
 
     for link in soup_hemispheres.findAll("a",class_="itemLink product-item"):
-        hemisphere_img=link.get("href")
-        if "https://astrogeology.usgs.gov"+hemisphere_img in hemispheres_img:
-            hemispheres_img
-        else:
-            hemispheres_img.append("https://astrogeology.usgs.gov"+hemisphere_img)
+        hemisphere_url=link.get("href")
+        if "https://astrogeology.usgs.gov"+hemisphere_url not in hemispheres_urls:
+            hemispheres_urls.append("https://astrogeology.usgs.gov"+hemisphere_url)
+    ## Going through each Hemisphere URL and obtaining Title and Name
+    hemispheres_names=[] #Will include each Hemisphere's name
+    hemispheres_img_urls=[] #Will include each Hemishpere's image url (jpg)
 
-    for name in soup_hemispheres.findAll("h3"):
-        hemispheres_names.append(name.text)
+    for link in hemispheres_urls:
 
-    for x in range(len(hemispheres_names)):
-        hemisphere_img_urls.append({"title":hemispheres_names[x],"img_url":hemispheres_img[x]})
-
+        browser.visit(link)
+        html_hemisphere=browser.html
+        soup_hemisphere=bs(html_hemisphere,"html.parser")
+        
+        hemisphere_name=soup_hemisphere.find("h2", class_="title").text
+        hemispheres_names.append(hemisphere_name)
+    
+        hemisphere_img=soup_hemisphere.find("img", class_="wide-image")
+        image=hemisphere_img.get("src")
+        hemispheres_img_urls.append("https://astrogeology.usgs.gov"+image)
+    
+    ## Saving as a Dictionary
+    hemisphere_dicts=[] # Will group the hemispheres dictionary
+    
+    
+    ###Loops through each image and name to store it as a dictionary
+    for i in range(len(hemispheres_img_urls)):
+        hemisphere_dict={}
+        hemisphere_dict["title"]=hemispheres_names[i]
+        hemisphere_dict["image"]=hemispheres_img_urls[i]
+        hemisphere_dicts.append(hemisphere_dict)
+    
 # Store data in a dictionary
     mars={
         "latest_news_t":news_title,
-        "latest_news_p":news_p,
+        "latest_news_p":news_paragraph,
         "featured_img":featured_image_url,
         "weather_tweet":mars_weather,
         "facts":html_facts,
-        "hemispheres":hemisphere_img_urls
+        "hemispheres":hemisphere_dicts,
     }
 
     browser.quit()
