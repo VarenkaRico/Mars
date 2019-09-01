@@ -33,9 +33,17 @@ def scrape_info():
     html_image=browser.html
     soup_image=bs(html_image,"html.parser")
 
+    ## Link image jpg
     for link in soup_image.findAll("a",class_="button fancybox"):
         jpg_link=link.get("data-fancybox-href")
     featured_image_url="https://www.jpl.nasa.gov"+jpg_link
+
+    ## Image information
+    for info in soup_image.findAll("a",class_="button fancybox"):
+        jpg_info=info.get("data-description")
+    
+    ## Image title
+    jpg_title=soup_image.find("h1",class_="media_feature_title").text
 
 #WEATHER
 
@@ -68,7 +76,7 @@ def scrape_info():
     facts_df["Variable"]=variables
     facts_df["Value"]=values
 
-    html_facts=facts_df.to_html()
+    html_facts=facts_df.to_html(index=False, border=0)
 
 #HEMISPHERES
     url_hemispheres="https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
@@ -97,7 +105,9 @@ def scrape_info():
         soup_hemisphere=bs(html_hemisphere,"html.parser")
         
         hemisphere_name=soup_hemisphere.find("h2", class_="title").text
+        hemisphere_name=hemisphere_name.replace(" Enhanced","")
         hemispheres_names.append(hemisphere_name)
+        
     
         hemisphere_img=soup_hemisphere.find("img", class_="wide-image")
         image=hemisphere_img.get("src")
@@ -112,6 +122,7 @@ def scrape_info():
         hemisphere_dict={}
         hemisphere_dict["title"]=hemispheres_names[i]
         hemisphere_dict["image"]=hemispheres_img_urls[i]
+        hemisphere_dict["url"]=hemispheres_urls[i]
         hemisphere_dicts.append(hemisphere_dict)
     
 # Store data in a dictionary
@@ -119,6 +130,8 @@ def scrape_info():
         "latest_news_t":news_title,
         "latest_news_p":news_paragraph,
         "featured_img":featured_image_url,
+        "featured_img_title":jpg_title,
+        "featured_img_info":jpg_info,
         "weather_tweet":mars_weather,
         "facts":html_facts,
         "hemispheres":hemisphere_dicts,

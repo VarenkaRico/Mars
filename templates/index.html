@@ -19,17 +19,16 @@
 <body>
 
   <div class="container-fluid">
-    <div class="jumbotron">
-      <h1 class=header>Get the latest information on Mars</h1>
-      <p>News, Temperature, Photos...</p>
-      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Get the latest news!</a></p>
+    <div class="jumbotron" style="background-image:url('http://www.asc-csa.gc.ca/images/astronomie/mars/banner-mars.jpg'); background-size:cover">
+      <p class="header" style_=>Mars 2020</p>
+      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button" style="background-color: #6E161C; border-color:#FFFFE1">Update the information</a></p>
     </div>
   
     <!-- LATEST NEWS TITLE-->
     <div class="row">
       <div class="col-md-12">
         <div>
-          <h1 class=h1  >Latest Mars News</h1>
+          <p class=title >Latest Mars 2020 News</p>
         </div>
       </div>
     </div>
@@ -55,13 +54,13 @@
     <div class="row">
       <div class="col-md-7">
         <div>
-          <h1 class=h1>Featured Mars Image</h1>
+          <h1 class=title>Featured Space Image</h1>
         </div>
       </div>
 
       <div class="col-md-5">
         <div>
-          <h1 class=h1>Current Weather on Mars</h1>
+          <h1 class=title>Current Weather on Mars</h1>
         </div>
       </div>
     </div>
@@ -69,24 +68,48 @@
     <div class="row">
       <div class="col-md-7">
         <div>
-          <img src ="{{mars.featured_img}}" alt="Mars image" class="img-fluid" alt="Responsive image">
+          <h2 class="subtitle">{{mars.featured_img_title}}</h2>
+          </a> 
         </div>
       </div>
 
       <div class="col-md-5">
         <div>
-          <p>{{mars.weather_tweet}}</p>
-          <h1 class=h1>Mars Facts</h1>
-          <p>{{mars.facts|safe}}</p>
+          <h2 class="subtitle">The Mars Weather Twitter (@MarsWxReport)</h2>
+          </a> 
         </div>
       </div>
     </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div>
+            <a href="https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars" target="_blank">
+              <img src ="{{mars.featured_img}}" alt="Space image" class="img-fluid" alt="Responsive image">
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div>
+            <p>{{mars.featured_img_info}}</p>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <div>
+            <p>{{mars.weather_tweet}}</p>
+            <h1 class="title">Mars Facts</h1>
+            <p class="table">{{mars.facts|safe}}</p>
+          </div>
+        </div>
+      </div>
 
     <!--Hemispheres-->
     <div class="row">
       <div class="col-md-12">
         <div>
-          <h1 class=h1>Mars Hemispheres</h1>
+          <h1 class=title>Mars Hemispheres</h1>
         </div>
       </div>
     </div>
@@ -95,10 +118,11 @@
     <div class="row">
       
         {% for hemisphere in mars.hemispheres %}
-        <div class="col-md-6">
-          <h2 class=h2>{{ hemisphere.title }}</h2>
-          <img src="{{ hemisphere.image }}" class="img-fluid" alt="Responsive image">
-          <p>{{ hemisphere.image }}</p>
+        <div class="col-md-3">
+          <h2 class=subtitle>{{ hemisphere.title }}</h2>
+          <a href={{hemisphere.url}} target="_blank">
+            <img src="{{ hemisphere.image }}" class="img-fluid" alt="Responsive image" href="{{ hemisphere.image }}">
+          </a>
         </div>
         {% endfor %}
       
